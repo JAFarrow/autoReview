@@ -1,12 +1,15 @@
-import os, subprocess, sys
+import os, subprocess, sys, random, re
+
+os.chdir("/home/wtc/my_reviews")
 
 project_name = sys.argv[1].replace("_", " ")
 review_list = list()
 
-os.chdir("/home/wtc/my_reviews")
 all_reviews = subprocess.run(["wtc-lms", "reviews"], capture_output = True, text = True)
 for line in all_reviews.stdout.splitlines():
     if project_name in line:
         review_list.append(line)
 
-print(review_list)
+random_review = review_list[random.randint(0, len(review_list) - 1)]
+random_review_alias = random_review[random_review.find("(")+1:random_review.find(")")]
+print(random_review_alias)
